@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var hbs = require('hbs'); // importar o hbs
 
 var indexRouter = require('./routes/rotasIndex');
 var usersRouter = require('./routes/rotasUsers');
@@ -13,6 +14,9 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+// Registra partials do handlebars (view/partials)
+hbs.registerPartials(path.join( __dirname, 'views', 'partials'));
 
 app.use(logger('dev'));
 app.use(express.json());

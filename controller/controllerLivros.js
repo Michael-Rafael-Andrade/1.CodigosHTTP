@@ -78,7 +78,7 @@ exports.altera_status = async function(req, res){
     const status_permitidos = ['disponível', 'emprestado'];
 
     // Validações do PDF de Parâmetros de URL
-    if(!id_livro || Number.isNaN(id_livro) || !Number.isInteger(id_liviro) || id_livro <= 0){
+    if(!id_livro || Number.isNaN(id_livro) || !Number.isInteger(id_livro) || id_livro <= 0){
         return res.status(400).send('ID de livro inválido');
     }
     if(!status_permitidos.includes(novo_status)){

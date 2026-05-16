@@ -4,7 +4,7 @@
 // Importa os modelos Livro e Categoria
 const { Livro, Categoria } = require('../model/modelos.js');
 
-exports.tela_principal = async (req, res){
+exports.tela_principal = async function(req, res){
     try {
         // try e catch
         // Pegar o filtro de categoria via query na URL (/?categoria=1)
@@ -20,7 +20,7 @@ exports.tela_principal = async (req, res){
             const id_cat = Number(id_categoria_filtro);
 
             // Verifica se é número, inteiro e positivo
-            if (Number.isNaN(id_cat) || !Numberr.isInteger(id_cat) || id_cat <= 0) {
+            if (Number.isNaN(id_cat) || !Number.isInteger(id_cat) || id_cat <= 0) {
                 return res.status(400).send('ID de categoria inválido');
             }
 

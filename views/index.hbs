@@ -1,2 +1,73 @@
 {{> navbar}}
-<h1> Em construção... </h1>
+<h1 class="mb-4">{{titulo_pagina}}</h1>
+
+<div class="card mb-4">
+    <div class="card-header bg-light">
+        <strong>Filtro por Categoria</strong>
+    </div>
+    <div class="card-body">
+        <a href="/" class="btn btn-outline-secondary me-2 mb-2">Todas</a>
+
+        {{#each categorias}}
+        <a href="/?categoria={{id}}" class="btn btn-outline-success me-2 mb-2">{{nome}}</a>
+        {{/each}}
+    </div>
+</div>
+
+<h3>Acervo</h3>
+
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Autor</th>
+            <th>Categoria</th>
+            <th>Criado em</th>
+            <th>Status</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each livros}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{titulo}}</td>
+            <td>{{autor}}</td>
+            <td>{{categoria.nome}}</td>
+            <td>{{criado_em_fmt}}</td>
+
+            <td>
+                {{#if (eq status "disponível")}}
+                <span class="badge bg-success">Disponível</span>
+                {{else}}
+                <span class="badge bg-warning text-dark">Emprestado</span>
+                {{/if}}
+            </td>
+
+            <td class="d-flex">
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-arrow-repeat"></i> Alterar Status
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/disponível">Marcar como
+                                Disponível</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/emprestado">Marcar como
+                                Emprestado</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+
+{{#unless livros}}
+<div class="alert alert-info">Nenhum livro cadastrado nesta categoria.</div>
+{{/unless}}

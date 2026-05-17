@@ -4,8 +4,25 @@
 // Importa os modelos Livro e Categoria
 const { Livro, Categoria } = require('../model/modelos.js');
 
-exports.tela_principal = async function(req, res){
+exports.tela_principal = async function (req, res) {
     try {
+
+        // 1. CRIAÇÃO AUTOMÁTICA DE CATEGORIAS (bulkCreate)
+        // Busca todas as categorias para ver se a tabela está vazia
+        let categorias = await Categoria.findAll();
+
+        // Se o vetor retornar vazio (0 categorias), criamos as padrão
+        if (categorias.length === 0) {
+            await Categoria.bulkCreate([
+                { nome: 'Informática' },
+                { nome: 'Ficção Científica' },
+                { nome: 'Romance' },
+                { nome: 'Biografia' }
+            ]);
+            // Busca as categorias novamente para pegar os IDs gerados no banco
+            categorias = await Categoria.findAll();
+        }
+
         // try e catch
         // Pegar o filtro de categoria via query na URL (/?categoria=1)
         const id_categoria_filtro = req.query.categoria;
@@ -14,6 +31,9 @@ exports.tela_principal = async function(req, res){
         let opcoes_busca = {
             include: { model: Categoria, as: 'categoria' }
         };
+
+        // Guarda o nome do filtro para exibir no HTML
+        let nome_categoria_atual = "Todas";
 
         // Validação de query param da categoria
         if (id_categoria_filtro) {
@@ -32,11 +52,13 @@ exports.tela_principal = async function(req, res){
 
             // Adiciona a condição de filtro na busca do Sequelize
             opcoes_busca.where = { id_categoria: id_cat };
+
+            // Define o nome da categoria atual para a tela
+            nome_categoria_atual = categoria_existe.nome;
         }
 
         // Lista os livros (com ou sem filtro) e todas as categorias (para os botões)
         const livros = await Livro.findAll(opcoes_busca);
-        const categorias = await Categoria.findAll();
 
         // Formata a data de criação padrão BR
         livros.forEach(livro => {
@@ -47,6 +69,7 @@ exports.tela_principal = async function(req, res){
             titulo_pagina: "Biblioteca Comunitária",
             livros: livros,
             categorias: categorias, // Passa as categorias para renderizar os filtros
+            filtro_atual: nome_categoria_atual // Passa o nome para o HTML
         };
 
         return res.render('index', contexto);

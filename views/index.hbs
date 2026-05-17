@@ -38,7 +38,7 @@
             <td>{{criado_em_fmt}}</td>
 
             <td>
-                {{#if (eq status "disponível")}}
+                {{#if (eq status "disponivel")}}
                 <span class="badge bg-success">Disponível</span>
                 {{else}}
                 <span class="badge bg-warning text-dark">Emprestado</span>
@@ -46,14 +46,19 @@
             </td>
 
             <td class="d-flex">
-                <div class="dropdown">
+
+                <a href="/livros/detalhes/{{id}}" class="btn btn-sm btn-info text-white me-2">
+                    Detalhes
+                </a>
+
+                <div class="dropdown me-2">
                     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i class="bi bi-arrow-repeat"></i> Alterar Status
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/disponível">Marcar como
+                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/disponivel">Marcar como
                                 Disponível</a>
                         </li>
                         <li>
@@ -62,6 +67,9 @@
                         </li>
                     </ul>
                 </div>
+
+                <a href="/livros/excluir/{{id}}" class="btn btn-sm btn-danger text-white" onclick="return confirm('Tem certeza que deseja exclui este livro?');"><i class="bi bi-trash"></i>Excluir</a>
+
             </td>
         </tr>
         {{/each}}

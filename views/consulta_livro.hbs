@@ -1,0 +1,33 @@
+// consulta_livro.hbs
+
+<h1 class="mb-4">{{titulo_pagina}}</h1>
+
+<div class="card">
+    <div class="card-body">
+        
+        <h3 class="card-title">{{livro.titulo}}</h3>
+        
+        <h6 class="card-subtitle mb-4 text-muted">
+            Autor: {{livro.autor}}
+        </h6>
+        
+        <hr>
+
+        <p>
+            <strong>Status Atual:</strong> 
+            {{livro.status}}
+        </p>
+
+        <p>
+            <strong>Data de Cadastro:</strong> 
+            {{livro.criada_em_fmt}}
+        </p>
+        
+        <hr>
+        
+        <a href="/" class="btn btn-secondary mt-3">
+            Voltar para o Acervo
+        </a>
+
+    </div>
+</div>

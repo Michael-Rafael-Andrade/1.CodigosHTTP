@@ -53,7 +53,7 @@ Livro.init(
         },
         status: {
             type: DataTypes.ENUM(
-                'disponível',
+                'disponivel',
                 'emprestado'),
             allowNull: false,
             defaultValue: 'disponível',

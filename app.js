@@ -18,6 +18,13 @@ app.set('view engine', 'hbs');
 // Registra partials do handlebars (view/partials)
 hbs.registerPartials(path.join( __dirname, 'views', 'partials'));
 
+
+// HELPER DO HANDLEBARS PARA COMPARAÇÕES NO HTML (IGUALDADE)
+hbs.registerHelper('eq', function(a,b){
+  return a === b;
+});
+
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

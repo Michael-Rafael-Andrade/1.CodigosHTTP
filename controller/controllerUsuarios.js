@@ -10,7 +10,7 @@ exports.cria_get = function(req, res){
     return res.render('cria_usuario', contexto);
 };
 
-exports.cria_post = function(req, res){
+exports.cria_post = async function(req, res){
     const novo_usuario = {
         nome: req.body.nome,
         email: req.body.email,

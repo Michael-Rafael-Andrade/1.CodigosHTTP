@@ -45,7 +45,8 @@ exports.cria_post = async function (req, res) {
     const novo_livro = {
         titulo: req.body.titulo,
         autor: req.body.autor,
-        id_categoria: req.body.id_categoria
+        id_categoria: req.body.id_categoria,
+        usuario_id: req.user.id // necessário para pegar o ID do usuário logado
     };
 
     // Cria um vetor vazio para listar os erros.

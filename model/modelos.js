@@ -12,7 +12,7 @@ Usuario.init(
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoincrement: true,
+            autoIncrement: true,
             allowNull: false
         },
         nome: {
@@ -117,26 +117,26 @@ Livro.init(
 /* Relação 1 usuário tem muitas categorias */
 Usuario.hasMany(Categoria, {
     as: 'categorias', // nome de associação
-    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+    foreignKey: 'usuario_id' // Nome da coluna que vai conectar as tabelas
 });
 
 
 /* Uma categoria pertence a um usuário */
 Categoria.belongsTo(Usuario, {
     as: 'usuario', // nome de associação
-    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+    foreignKey: 'usuario_id' // Nome da coluna que vai conectar as tabelas
 });
 
 /* Relação 1 usuário tem muitos livros */
 Usuario.hasMany(Livro, {
     as: 'livros', // nome de associação
-    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+    foreignKey: 'usuario_id' // Nome da coluna que vai conectar as tabelas
 });
 
 /* Um livro pertence a um usuário */
 Livro.belongsTo(Usuario, {
     as: 'usuario', // nome da associação
-    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+    foreignKey: 'usuario_id' // Nome da coluna que vai conectar as tabelas
 })
 
 
@@ -166,4 +166,4 @@ sequelize.sync({ alter: true }).then(() => {
 
 
 // Exporta o modelo para ser usado nos controllers
-module.exports = { Categoria, Livro };
+module.exports = { Categoria, Livro, Usuario };

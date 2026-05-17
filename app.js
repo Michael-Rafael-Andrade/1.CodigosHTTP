@@ -68,6 +68,10 @@ app.use(function(req, res, next){
 
 // Fim dos Middlers de session
 
+// app.use((req, res, next) => {
+//   res.locals.user = req.user || null;
+//   next();
+// })
 
 
 app.use('/', indexRouter);

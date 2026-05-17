@@ -2,7 +2,7 @@
 // Gerencia a tela principal e os filtros
 
 // Importa os modelos Livro e Categoria
-const { Livro, Categoria } = require('../model/modelos.js');
+const { Livro, Categoria, Usuario } = require('../model/modelos.js');
 
 exports.tela_principal = async function (req, res) {
     try {
@@ -12,15 +12,35 @@ exports.tela_principal = async function (req, res) {
         let categorias = await Categoria.findAll();
 
         // Se o vetor retornar vazio (0 categorias), criamos as padrão
-        if (categorias.length === 0) {
-            await Categoria.bulkCreate([
-                { nome: 'Informática' },
-                { nome: 'Ficção Científica' },
-                { nome: 'Romance' },
-                { nome: 'Biografia' }
-            ]);
-            // Busca as categorias novamente para pegar os IDs gerados no banco
-            categorias = await Categoria.findAll();
+        // if (categorias.length === 0) {
+        //     await Categoria.bulkCreate([
+        //         { nome: 'Informática' },
+        //         { nome: 'Ficção Científica' },
+        //         { nome: 'Romance' },
+        //         { nome: 'Biografia' }
+        //     ]);
+        //     // Busca as categorias novamente para pegar os IDs gerados no banco
+        //     categorias = await Categoria.findAll();
+        // }
+
+        // Verifica quantas categorias existem no banco
+        const totalCategorias = await Categoria.count();
+
+        // Se não houver nenhuma categoria, vamos criar as padrão
+        if (totalCategorias === 0) {
+            // Busca o primeiro usuário cadastrado no sistema (o que você acabou de criar)
+            const primeiroUsuario = await Usuario.findOne();
+
+            // Se existir um usuário, cria as categorias atreladas ao ID dele
+            if (primeiroUsuario) {
+                await Categoria.bulkCreate([
+                    { nome: 'Informática', usuario_id: primeiroUsuario.id },
+                    { nome: 'Ficção Científica', usuario_id: primeiroUsuario.id },
+                    { nome: 'Romance', usuario_id: primeiroUsuario.id },
+                    { nome: 'Biografia', usuario_id: primeiroUsuario.id }
+                ]);
+                console.log("Categorias padrão criadas com sucesso!");
+            }
         }
 
         // try e catch

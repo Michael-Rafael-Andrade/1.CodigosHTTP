@@ -8,6 +8,7 @@ var hbs = require('hbs'); // importar o hbs
 var indexRouter = require('./routes/rotasIndex');
 var usersRouter = require('./routes/rotasUsers');
 var livrosRouter = require('./routes/rotasLivros');
+var sobreRouter = require('./routes/rotasSobre');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/livros', livrosRouter);
+app.use('/sobre', sobreRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

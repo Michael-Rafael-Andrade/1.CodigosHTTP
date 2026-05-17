@@ -4,6 +4,40 @@ const { DataTypes, Model } = require('sequelize');
 // Importa a conexão que acabamos de criar acima
 const sequelize = require('./server.js');
 
+// Criando o modelo usuário
+class Usuario extends Model { } // classe herdando de 'Model'
+
+Usuario.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoincrement: true,
+            allowNull: false
+        },
+        nome: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        senha_hash: {
+            type: DataTypes.STRING,
+            allowNull: false
+        }
+    },
+    {
+        sequelize,
+        freezeTableName: true,
+        createdAt: 'criada_em',
+        updatedAt: 'atualizada_em',
+    },
+);
+
+
 // Define a classe categoria herdando as funcionalidades de Model
 class Categoria extends Model { }
 
@@ -20,6 +54,10 @@ Categoria.init(
         // Atributo Nome
         nome: {
             type: DataTypes.STRING,
+            allowNull: false
+        },
+        usuario_id: {
+            type: DataTypes.INTEGER,
             allowNull: false
         }
     },
@@ -57,7 +95,12 @@ Livro.init(
                 'emprestado'),
             allowNull: false,
             defaultValue: 'disponível',
+        },
+        usuario_id: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
+
     },
     {
         sequelize,
@@ -71,10 +114,35 @@ Livro.init(
 
     RELACIONAMENTO (1 : N)
 
-*/
+/* Relação 1 usuário tem muitas categorias */
+Usuario.hasMany(Categoria, {
+    as: 'categorias', // nome de associação
+    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+});
+
+
+/* Uma categoria pertence a um usuário */
+Categoria.belongsTo(Usuario, {
+    as: 'usuario', // nome de associação
+    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+});
+
+/* Relação 1 usuário tem muitos livros */
+Usuario.hasMany(Livro, {
+    as: 'livros', // nome de associação
+    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+});
+
+/* Um livro pertence a um usuário */
+Livro.belongsTo(Usuario, {
+    as: 'usuario', // nome da associação
+    foreignKey: 'id_usuario' // Nome da coluna que vai conectar as tabelas
+})
+
+
 // Uma categoria tem muitos livros
 Categoria.hasMany(Livro, {
-    as: 'categoria', // nome de associação
+    as: 'livros_categoria', // nome de associação
     foreignKey: 'id_categoria' // Nome da coluna que vai conectar as tabelas
 });
 
@@ -83,6 +151,8 @@ Livro.belongsTo(Categoria, {
     as: 'categoria', // nome do atributo de associação 
     foreignKey: 'id_categoria' // Deve ser o mesmo nome colocado acima
 })
+
+
 
 
 // APÓS CRIAR OS ELEMENTOS DA TABELA DEVE COMENTAR TODO O CÓDIGO DE CRIAÇÃO DOS ELEMENTOS DENTRO DA TABELA 

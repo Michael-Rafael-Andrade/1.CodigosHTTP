@@ -4,19 +4,49 @@
             <i class="bi bi-book"></i>
             Minha Biblioteca
         </a>
+
+
         <a class="navbar-brand" href="/sobre">Sobre</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainnav"
             aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
+
+        {{!-- Operações do usuario --}}
+        <ul class="navbar-nav ms-auto">
+            {{#if user}}
+            <li class="nav-item">
+                <span class="navbar-text me-3">Olá, <strong>{{user.nome}}</strong></span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-text" href="/usuarios/logout">Sair</a>
+            </li>
+            {{else}}
+            <li class="nav-item">
+                <a class="nav-link" href="/usuaios/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/usuarios/cadastro">Cadastro</a>
+            </li>
+            {{/if}}
+        </ul>
+        {{!-- Fim - Operações do usuario --}}
+
+
+
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav">
+                {{!-- Operações do sistema --}}
+                {{#if user}}
                 <li class="nav-item">
                     <a class="nav-link" href="/livros/criar">Casdastrar Livro
                     </a>
                 </li>
+                {{/if}}
             </ul>
         </div>
+        {{!-- Fim - Operações do sistema --}}
 
     </div>
 </nav>

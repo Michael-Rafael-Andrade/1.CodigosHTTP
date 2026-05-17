@@ -1,0 +1,51 @@
+{{> navbar }}
+
+<div class="card mb-4">
+    <div class="cad-body">
+        <h5 class="card-title">Cadastro de Novo Usuario</h5>
+
+        {{#if errors}}
+        <div class="alert alert-danger" role="alert">
+            <ul class="mb-0">
+                {{#each errors}}
+                <li>{{msg}}</li>
+                {{/each}}
+            </ul>
+        </div>
+        {{/if}}
+
+        <form method="POST" action="/usuarios/cadastro">
+            <div class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="nome">Nome completo</label>
+                    <input type="text" id="nome" name="nome" class="form-control" maxlength="120" required value="{{old.nome}}">
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input type="email" id="email" name="email" class="form-control" maxlength="160" required value="{{old.email}}">
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="senha">Senha</label>
+                    <input type="passwords" id="senha" name="senha" class="form-control" minlength="6" required>
+                    <small class="text-muted">Minimo de 6 caracteres.</small>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="form-label" for="confirmacao_senha">Confirmar senha</label>
+                    <input type="passwords" id="confirmacao_senha" name="confirmacao_senha" class="form-control" minlength="6" required>
+                </div>
+
+            </div>
+
+            <div class="mt4 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Cadastrar usuario</button>
+                <a href="/" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+
+        </form>
+
+
+    </div>
+</div>

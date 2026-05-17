@@ -37,11 +37,10 @@
 
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav">
-                {{!-- Operações do sistema --}}
-                {{#if user}}
+                {{!-- Operações do sistema restritas --}}
+                {{#if (eq user.perfil "bibliotecario")}}
                 <li class="nav-item">
-                    <a class="nav-link" href="/livros/criar">Casdastrar Livro
-                    </a>
+                    <a class="nav-link" href="/livros/criar">Cadastrar Livro</a>
                 </li>
                 {{/if}}
             </ul>

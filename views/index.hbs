@@ -15,7 +15,6 @@
 </div>
 
 <h3>Acervo</h3>
-
 <table class="table table-striped table-hover">
     <thead class="table-dark">
         <tr>
@@ -23,9 +22,15 @@
             <th>Título</th>
             <th>Autor</th>
             <th>Categoria</th>
-            <th>Criado em</th>
+            {{#if user}}
+            {{#if (eq user.perfil "admin")}}
+            <th>Criado</th>
+            {{else if (eq user.perfil "bibliotecario")}}
             <th>Status</th>
             <th>Ações</th>
+            {{else}} <th>Status</th>
+            {{/if}}
+            {{/if}}
         </tr>
     </thead>
     <tbody>
@@ -35,8 +40,12 @@
             <td>{{titulo}}</td>
             <td>{{autor}}</td>
             <td>{{categoria.nome}}</td>
+
+            {{#if ../user}}
+            {{#if (eq ../user.perfil "admin")}}
             <td>{{criado_em_fmt}}</td>
 
+            {{else if (eq ../user.perfil "bibliotecario")}}
             <td>
                 {{#if (eq status "disponivel")}}
                 <span class="badge bg-success">Disponível</span>
@@ -44,33 +53,35 @@
                 <span class="badge bg-warning text-dark">Emprestado</span>
                 {{/if}}
             </td>
-
             <td class="d-flex">
-
-                <a href="/livros/detalhes/{{id}}" class="btn btn-sm btn-info text-white me-2">
-                    Detalhes
-                </a>
-
+                <a href="/livros/detalhes/{{id}}" class="btn btn-sm btn-info text-white me-2">Detalhes</a>
                 <div class="dropdown me-2">
                     <button class="btn btn-sm btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
                         <i class="bi bi-arrow-repeat"></i> Alterar Status
                     </button>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/disponivel">Marcar como
-                                Disponível</a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/livros/novo_status/{{id}}/emprestado">Marcar como
-                                Emprestado</a>
-                        </li>
+                        <li><a class="dropdown-item" href="/livros/novo_status/{{id}}/disponivel">Marcar como
+                                Disponível</a></li>
+                        <li><a class="dropdown-item" href="/livros/novo_status/{{id}}/emprestado">Marcar como
+                                Emprestado</a></li>
                     </ul>
                 </div>
-
-                <a href="/livros/excluir/{{id}}" class="btn btn-sm btn-danger text-white" onclick="return confirm('Tem certeza que deseja exclui este livro?');"><i class="bi bi-trash"></i>Excluir</a>
-
+                <a href="/livros/excluir/{{id}}" class="btn btn-sm btn-danger text-white"
+                    onclick="return confirm('Tem certeza que deseja excluir este livro?');"><i class="bi bi-trash"></i>
+                    Excluir</a>
             </td>
+
+            {{else}}
+            <td>
+                {{#if (eq status "disponivel")}}
+                <span class="badge bg-success">Disponível</span>
+                {{else}}
+                <span class="badge bg-warning text-dark">Emprestado</span>
+                {{/if}}
+            </td>
+            {{/if}}
+            {{/if}}
         </tr>
         {{/each}}
     </tbody>

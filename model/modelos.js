@@ -27,6 +27,11 @@ Usuario.init(
         senha_hash: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        perfil:{
+            type: DataTypes.ENUM('admin', 'bibliotecario', 'usuario'),
+            allowNull: false,
+            defaultValue: 'usuario' // Todos que cadastrar nasce como 'usuario' comum
         }
     },
     {
